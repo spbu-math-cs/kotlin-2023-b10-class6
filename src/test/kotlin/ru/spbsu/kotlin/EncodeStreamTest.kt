@@ -10,7 +10,6 @@ import org.junit.jupiter.api.assertThrows
 import java.io.*
 import java.util.zip.GZIPInputStream
 
-
 class EncodeStreamTest {
     private val rootOutputFolder = File("./output-folder/")
     private val rootInputFolder = File("./input-folder/")
@@ -29,13 +28,13 @@ class EncodeStreamTest {
     }
 
     @Test
-    fun goodPasswordChars () {
+    fun goodPasswordChars() {
         assertDoesNotThrow { EncodeStream(rootOutputFolder, "12345") }
-        assertDoesNotThrow {  EncodeStream(rootOutputFolder, "9876543") }
+        assertDoesNotThrow { EncodeStream(rootOutputFolder, "9876543") }
     }
 
     @Test
-    fun wrongPasswordChars () {
+    fun wrongPasswordChars() {
         assertThrows<IllegalArgumentException> { EncodeStream(rootOutputFolder, "") }
         assertThrows<IllegalArgumentException> { EncodeStream(rootOutputFolder, "aaa") }
         assertThrows<IllegalArgumentException> { EncodeStream(rootOutputFolder, "012345") }
@@ -43,14 +42,14 @@ class EncodeStreamTest {
     }
 
     @Test
-    fun testEncodeDecode () {
+    fun testEncodeDecode() {
         val writer = OutputStreamWriter(EncodeStream(rootOutputFolder, "123456"), "UTF-8")
         val testText = "Some text to test our strange cipher"
-        writer.use{
+        writer.use {
             it.write(testText)
         }
         val reader = InputStreamReader(DecodeStream(rootOutputFolder), "UTF-8")
-        reader.use{
+        reader.use {
             assertEquals(testText, it.readText())
         }
     }
@@ -72,7 +71,7 @@ class EncodeStreamTest {
                 }
                 currentFile.setLastModified(entry.lastModifiedDate.time)
             }
-            while(true)
+            while (true)
         }
     }
 
@@ -80,7 +79,7 @@ class EncodeStreamTest {
     fun decodeSample1_1() {
         decompress("./sample1.1.tgz", rootInputFolder)
         val reader = InputStreamReader(DecodeStream(rootInputFolder), "UTF-8")
-        reader.use{
+        reader.use {
             assertEquals("Кто тесты не писал, тот в цирке не смеётся!", it.readText())
         }
     }
@@ -89,7 +88,7 @@ class EncodeStreamTest {
     fun decodeSample1_2() {
         decompress("./sample1.2.tgz", rootInputFolder)
         val reader = InputStreamReader(DecodeStream(rootInputFolder), "UTF-8")
-        reader.use{
+        reader.use {
             assertEquals("Кто тесты не писал, тот в цирке не смеётся!", it.readText())
         }
     }
@@ -98,7 +97,7 @@ class EncodeStreamTest {
     fun decodeSample2_1() {
         decompress("./sample2.1.tgz", rootInputFolder)
         val reader = InputStreamReader(DecodeStream(rootInputFolder), "UTF-8")
-        reader.use{
+        reader.use {
             assertEquals("Скажете тоже, олимпиадное программирование", it.readText())
         }
     }
@@ -107,9 +106,8 @@ class EncodeStreamTest {
     fun decodeSample2_2() {
         decompress("./sample2.2.tgz", rootInputFolder)
         val reader = InputStreamReader(DecodeStream(rootInputFolder), "UTF-8")
-        reader.use{
+        reader.use {
             assertEquals("Скажете тоже, олимпиадное программирование", it.readText())
         }
     }
-
 }
